@@ -48,11 +48,11 @@ crypto-config/peerOrganizations/org1.example.com/ca/..._sk
 
 #java添加数据前端及功能实现
 
-通过按钮获取输入的数据（name,address,type),调用链码的initIdentity函数进行添加
+通过按钮获取输入的数据（name,address,type,rootID),调用链码的initIdentity函数进行添加
 
 #java查询数据前端及功能实现
 
-通过名称name，查询数据（name,address,type),调用链码的quaryIdentityByName函数进行查询
+通过名称name，查询数据（name,address,type,rootID,timestamp),调用链码的quaryIdentityByName函数进行查询
 
 
 
@@ -62,8 +62,12 @@ crypto-config/peerOrganizations/org1.example.com/ca/..._sk
 
 执行过程：
 
-1）进入v8/network目录，执行./build.sh建网（可用docker ps查看已生成的容器，包括5个peer,5个couchdb,1个orderer,1个ca）
+1）进入v9/network目录，执行./build.sh建网（可用docker ps查看已生成的容器，包括5个peer,5个couchdb,1个orderer,1个ca）
 
-2）进入v8/java目录，输入mvn install命令（需安装maven），生成target目录，进入后将block-java-sdk-0.0.1-SNAPSHOT-jar-with-dependencies.jar文件复制到v8/network_resources目录下，可将其重命名为v8.jar
+2）进入v9/java目录，输入mvn install命令（需安装maven），生成target目录，进入后将block-java-sdk-0.0.1-SNAPSHOT-jar-with-dependencies.jar文件复制到v9/network_resources目录下，将其重命名为v9.jar
 
-3）进入v8/network_resources目录，执行java -cp v8.jar org.app.network.Manager命令，随即弹出图形界面，按顺序操作即可（节点数最多为5；链码实例化过程较长）
+3）进入v9/network_resources目录，执行java -cp v9.jar org.app.network.Manager命令，随即弹出图形界面，按顺序操作即可（节点数最多为5；链码实例化过程较长）
+
+
+
+################################
