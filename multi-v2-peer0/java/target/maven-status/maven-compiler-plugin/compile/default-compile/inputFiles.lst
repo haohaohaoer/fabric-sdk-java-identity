@@ -1,0 +1,16 @@
+/opt/multi-v2-peer0/java/src/main/java/org/app/config/Config.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/chaincode/invocation/QueryChaincode.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/user/CAEnrollment.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/client/FabricClient.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/network/PeerInfo.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/network/Manager.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/client/ChannelClient.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/chaincode/invocation/InvokeQueryChaincode.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/network/CreateChannel.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/network/ReadTxt.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/client/CAClient.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/chaincode/invocation/InvokeChaincode.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/user/RegisterEnrollUser.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/network/DeployInstantiateChaincode.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/user/UserContext.java
+/opt/multi-v2-peer0/java/src/main/java/org/app/util/Util.java
