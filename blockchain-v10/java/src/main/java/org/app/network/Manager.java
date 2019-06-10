@@ -46,14 +46,14 @@ public class Manager {
         this.entrys_name = new String[entryArr.length()];
         this.entrys_url = new String[entryArr.length()];
         for(int i = 0; i < entryArr.length(); i++){
-            entrys_name[i] = "entry" + i + ".org1.example.com";
+            entrys_name[i] = "entry" + i;
             entrys_url[i] = "grpc://" + entryArr.getJSONObject(i).getString("ip") + ":" + entryArr.getJSONObject(i).getString("port");
         }
         this.peerArr = jsonObject.getJSONArray("peer");
         this.peers_name = new String[peerArr.length()];
         this.peers_url = new String[peerArr.length()];
         for(int i = 0; i < peerArr.length(); i++){
-            peers_name[i] = "peer" + i + ".org1.example.com";
+            peers_name[i] = "peer" + i;
             peers_url[i] = "grpc://" + peerArr.getJSONObject(i).getString("ip") + ":" + peerArr.getJSONObject(i).getString("port");
         }
 
@@ -79,13 +79,14 @@ public class Manager {
                     .getChannelConfigurationSignature(channelConfiguration, org1Admin);
             mychannel = fabClient.getInstance().newChannel(Config.CHANNEL_NAME, orderer, channelConfiguration,
                     channelConfigurationSignatures);
-            Logger.getLogger(CreateChannel.class.getName()).log(Level.INFO, "Channel created : "+ mychannel.getName());
+            Logger.getLogger(CreateChannel.class.getName()).log(Level.INFO, "Channel created - "+ mychannel.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             // Join Entrys
+            Logger.getLogger(Util.class.getName()).log(Level.INFO, "Joining - Entrys ");
             entrys = new Peer[entryArr.length()];
             for (int p = 0; p < entrys.length; p++) {
                 entrys[p] = fabClient.getInstance().newPeer(entrys_name[p], entrys_url[p]);
@@ -118,7 +119,7 @@ public class Manager {
             int i = 0;
             for (ProposalResponse res : response) {
                 Logger.getLogger(DeployInstantiateChaincode.class.getName()).log(Level.INFO,
-                        Config.CHAINCODE_1_NAME + "- Chain code deployment at " + entrys_name[i]+ "：" + res.getStatus());
+                        Config.CHAINCODE_1_NAME + " - Chain code deployment at " + entrys_name[i]+ " - " + res.getStatus());
                 i++;
             }
         } catch (Exception e) {
@@ -127,15 +128,22 @@ public class Manager {
 
         try {
             // Instantiate Chaincode
-            ChannelClient channelClient = new ChannelClient(mychannel.getName(), mychannel, fabClient);
-            String[] arguments = { "" };
-            Collection<ProposalResponse> response = channelClient.instantiateChainCode(Config.CHAINCODE_1_NAME, Config.CHAINCODE_1_VERSION,
-                    Config.CHAINCODE_1_PATH, TransactionRequest.Type.GO_LANG.toString(), "init", arguments, null);
-            int i = 0;
-            for (ProposalResponse res : response) {
-                Logger.getLogger(DeployInstantiateChaincode.class.getName()).log(Level.INFO,
-                        Config.CHAINCODE_1_NAME + "- Chain code instantiation at " + entrys_name[i]+ "：" + res.getStatus());
-                i++;
+            boolean instan_success = false;
+            while (instan_success == false){
+                ChannelClient channelClient = new ChannelClient(mychannel.getName(), mychannel, fabClient);
+                String[] arguments = { "" };
+                Collection<ProposalResponse> response = channelClient.instantiateChainCode(Config.CHAINCODE_1_NAME, Config.CHAINCODE_1_VERSION,
+                        Config.CHAINCODE_1_PATH, TransactionRequest.Type.GO_LANG.toString(), "init", arguments, null);
+                int i = 0;
+                for (ProposalResponse res : response) {
+                    if (res.getStatus() != ChaincodeResponse.Status.SUCCESS) {
+                        instan_success = false;
+                        break;
+                    }
+                    instan_success = true;
+                    Logger.getLogger(DeployInstantiateChaincode.class.getName()).log(Level.INFO,
+                            Config.CHAINCODE_1_NAME + " - Chain code instantiation at " + entrys_name[i++]+ " - " + res.getStatus());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,6 +151,7 @@ public class Manager {
 
         try {
             // Join Peers
+            Logger.getLogger(Util.class.getName()).log(Level.INFO, "Joining - Peers ");
             peers = new Peer[peerArr.length()];
             for (int p = 0; p < peers.length; p++) {
                 peers[p] = fabClient.getInstance().newPeer(peers_name[p], peers_url[p]);
