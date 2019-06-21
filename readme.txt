@@ -55,6 +55,11 @@ crypto-config/peerOrganizations/org1.example.com/ca/..._sk
 通过名称name，查询数据（name,address,type,rootID,timestamp),调用链码的quaryIdentityByName函数进行查询
 
 
+# multi-v2-peer0
+
+多机部署中peer0节点的代码，可实现通过java读取当前路径txt文档里的ip和port
+在新增或修改ip和port时，不需要更改jar文件，只用改txt即可
+
 
 #################################
 
